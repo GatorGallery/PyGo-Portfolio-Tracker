@@ -138,7 +138,7 @@ go test -v -cover ./src
   - Type: boolean
   - Could be sent alone to call the refresh function on the portfolio file
 
-## Implementation of your Program
+## Program Implementation
 
 There are three major files in our tool, each offers a distinct implementation
 and communicate with the others in specific ways. The first one is
