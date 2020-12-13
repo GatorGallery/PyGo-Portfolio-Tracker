@@ -248,4 +248,4 @@ tested with a variety of input to ensure that error messages are minimal.
 Thank you for checking out our tool! We would appreciate any feedback through
 the issue tracker and pull requests.
 
-This tool was built by @noorbuchi and @tonyanh1710
+This tool was built by [@noorbuchi](https://github.com/noorbuchi) and [@tonyanh1710](https://github.com/tonyanh1710)
