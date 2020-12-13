@@ -1,6 +1,6 @@
-# Report by Noor Buchi and Anh Tran
+# PyGo Stock Portfolio Builder
 
-## Design of your Program
+## Tool Design
 
 Our program design is the combining structure of Golang and Python. There are
 three main files in our tool, which are `portfolio.go`, `stockHandler.go`, and
@@ -31,35 +31,70 @@ the information in json files. Overall, this organization allow us to combine
 the Python's elegant and user friendly graphical interface with Golang's efficient
 object oriented programming and data processing.
 
-## Implementation of your Program
+## Installation
 
-There are three major files in our tool, each offers a distinct implementation
-and communicate with the others in specific ways. The first one is
-`portfolio.go`, which is the foundation of our program. The purpose of the file
-is to create the structure of the portfolio, stocks, and entry objects. It also
-contains functions for getting stock information, buying and selling stocks,
-deposit and withdrawing the cash, and most importantly, refreshing the data and
-creating a new portfolio. In these functions, `buy` and `sell` are the act of
-buying and selling stocks. It collect the stock ticker that users chooses,
-number of shares, and the price that these share were purchased or sold at. It
-then updated the `Positions` map in the portfolio object accordingly and
-recalculates totals. In the `deposit` and `withdraw` function, it tells users if
-they want to add or take the money from their portfolio. These functions will
-check the current amount of cash exiting in the portfolio and make the
-calculation to update the new amount. `RefreshData` is another important
-function that iterates through all values of the portfolio and calculates
-totals, percentages, and fetches latest stock prices. Following that, it updates
-the instance variables of the portfolio structure. This file is the foundation
-of the tool because it implements the objects structure and the basic functions
-needed to manipulate it.
+### Prerequisites
 
-The next file is `stockHandler.go`, which is also the back-end file. This file
-is served as the brain of the tool. `stockHandler.go` functions to handle and
-parse command line arguments as well, check for input error, handle file
-creation, and retrieve the data as a portfolio object. It also calls
-appropriate functions sending parameters based on user input. This section of
-the tool can be ran independently using the command line interface it implements
-using the following flags:
+#### Python Environment
+
+Python makes up all front-end aspects of this project. Specifically, web application and data retrieval are done using Python. To ensure that all Python components run smoothly, you will need to install:
+
+- A version of Python preferably through Pyenv
+- Pip, a Python package manager
+- Pipenv, used create a Python virtualenv and retrieve needed packages. This package can be installed using:
+
+```bash
+pip install pipenv
+```
+
+#### Golang Environment
+
+Back-end operations and calculations, as well as data storage are made possible through Go. The following prerequisites are needed:
+
+- A new version of Go (1.14 or 1.15)
+- `finance-go` package, can be installed using:
+
+```bash
+go get github.com/piquette/finance-go
+```
+
+### Web Application
+
+After all needed packages and tools are installed, the Python virtual environment needs to be created in the repository's root using:
+
+```bash
+pipenv install
+```
+
+This might take some time to locate all dependencies and create `Pipfile.lock`.
+However, once this is completed, you can run the tool's web application from the
+root of the repository using:
+
+```bash
+pipenv run streamlit run src/web_interface.py
+```
+
+### Using Back-end Independently
+
+`stockHandler.go` implements a command line interface that manages all
+operations and stores data. If you wish to use that without the web interface,
+you can follow the steps below:
+
+- build all modules: `go build src/stockHandler.go src/portfolio.go`
+- run the newly created stockHandler file using client line argument flags, example:
+  - Deposit: `./stockHandler -f my_portfolio.json -o deposit -s 500`
+  - Withdraw: `./stockHandler -f my_portfolio.json -o withdraw -s 500`
+  - Buy: `./stockHandler -f my_portfolio.json -o buy -t TSLA -s 54.345 -p 20`
+  - Sell: `./stockHandler -f my_portfolio.json -o sell -t TSLA -s 54.345 -p 43`
+
+The test suite for the tool can be run using the following command or through
+the web application:
+
+```bash
+go test -v -cover ./src
+```
+
+### Supported flags
 
 - File Name
 
@@ -103,6 +138,35 @@ using the following flags:
   - Type: boolean
   - Could be sent alone to call the refresh function on the portfolio file
 
+## Implementation of your Program
+
+There are three major files in our tool, each offers a distinct implementation
+and communicate with the others in specific ways. The first one is
+`portfolio.go`, which is the foundation of our program. The purpose of the file
+is to create the structure of the portfolio, stocks, and entry objects. It also
+contains functions for getting stock information, buying and selling stocks,
+deposit and withdrawing the cash, and most importantly, refreshing the data and
+creating a new portfolio. In these functions, `buy` and `sell` are the act of
+buying and selling stocks. It collect the stock ticker that users chooses,
+number of shares, and the price that these share were purchased or sold at. It
+then updated the `Positions` map in the portfolio object accordingly and
+recalculates totals. In the `deposit` and `withdraw` function, it tells users if
+they want to add or take the money from their portfolio. These functions will
+check the current amount of cash exiting in the portfolio and make the
+calculation to update the new amount. `RefreshData` is another important
+function that iterates through all values of the portfolio and calculates
+totals, percentages, and fetches latest stock prices. Following that, it updates
+the instance variables of the portfolio structure. This file is the foundation
+of the tool because it implements the objects structure and the basic functions
+needed to manipulate it.
+
+The next file is `stockHandler.go`, which is also the back-end file. This file
+is served as the brain of the tool. `stockHandler.go` functions to handle and
+parse command line arguments as well, check for input error, handle file
+creation, and retrieve the data as a portfolio object. It also calls
+appropriate functions sending parameters based on user input. This section of
+the tool can be ran independently using the command line interface it implements.
+
 `web_interface.py` is the front-end implementation that allows us to create the
 graphical interface of the program. The implementation uses Python and the
 Streamlit library to create and run the interface. Specifically, it allows users
@@ -132,20 +196,14 @@ using the web interface and the results would be shown there. Overall, the web
 interface is able to handle all possible user input and display important
 messages that update the user and display any error messages.
 
-## Instructions to run the project
-
-Steps needed to run the project can be found [here](../instructions.md)
-
-## Evaluation and Testing of your Program
+## Output Examples
 
 ### Tool Screenshots
 
-![Screenshot1](../report_screeshots/image1.png)
-![Screenshot2](../report_screeshots/image6.png)
-![Screenshot3](../report_screeshots/image2.png)
-![Screenshot4](../report_screeshots/image3.png)
-![Screenshot5](../report_screeshots/image4.png)
-![Screenshot6](../report_screeshots/image5.png)
+![Screenshot2](./readme-screenshots/image6.png)
+![Screenshot3](./readme-screenshots/image2.png)
+![Screenshot5](./readme-screenshots/image4.png)
+![Screenshot6](./readme-screenshots/image5.png)
 
 ### Test Suite Output
 
@@ -185,44 +243,9 @@ structure and its functionalities. Some aspects could not be tested since they
 are dependent on changing stock market prices. The graphical interface was also
 tested with a variety of input to ensure that error messages are minimal.
 
-## Description of the challenges that you faced and how you resolved them
+## Feedback
 
-We've faced many challenges in this project. While coming up with the general
-idea was simple and straightforward, there were some difficulties in
-implementation and ensuring that the tool is error free. One of the first
-challenges we encountered was working with Golang and learning to use it's
-object oriented structures more comfortably. We had little experience with
-Golang and setting up this development environment and working with it was
-challenging at firs. We were able to overcome this challenge, however, by
-looking at the available online resources and reading through the steps of
-installing, setting up, ans using Golang. Other challenges include manipulating
-data frames using Pandas. While we had some previous experience using them, it
-was especially challenging at first to arrange the data in a way that could be
-graphed and displayed properly. After reading through Pandas documentation,
-we were able to organize and style the data in the most appropriate way to be
-displayed. In addition to the previously mentioned challenges, we had some
-difficulties detecting and debugging the different errors that could result from
-unusual input. Solving this problem required a lot of trial and error in the
-graphical interface and a thorough exception handling in our back-end. Overall,
-we were able to overcome the different challenges that came up by continuously
-communicating and holding frequent meetings to discuss updates to our project.
+Thank you for checking out our tool! We would appreciate any feedback through
+the issue tracker and pull requests.
 
-## If worked in a team, description of the way in which you and your team members shared the project work
-
-- **Noor** : I was involved in the design process and the implementation of all
-  aspects of the project. From setting up the object oriented structures and
-  command line interface in Golang, to creating the user interface in Python, I
-  worked closely with Anh to implement the needed features. I also created the
-  test suite and wrote the different test cases that check the correctness of
-  the backend. Overall, I was very involved in this project and completed a
-  significant portion of the writing deliverable such as the proposal, update,
-  and final report.
-
-- **Anh**: During the project, I worked with Noor to complete the design process 
-and creating the framework of the program. For me, I took the responsibility for 
-working parts in `web_interface.py` file as I created functions and methods that 
-are used in the interface. Throughout the completion process of this project, we 
-worked together in coming up with the idea and writing the code. We communicated 
-and collaborated through various ways such as Google Meet and Visual Studio Live 
-Share. This project helped us develop our teamwork and communication skills in 
-the field of computer science.
+This tool was built by @noorbuchi and @tonyanh1710
