@@ -1,5 +1,7 @@
 # PyGo Stock Portfolio Builder
 
+![Docker Cloud Build Status](https://img.shields.io/badge/Docker%20Build-Passing-brightgreen)
+
 ## Tool Design
 
 Our program design is the combining structure of Golang and Python. There are
