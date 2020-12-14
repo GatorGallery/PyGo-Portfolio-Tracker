@@ -71,7 +71,6 @@ func TestFileExists(t *testing.T) {
 		{"web_interface.py", true},
 		{"stockHandler.go", true},
 		{"portfolio.go", true},
-		{"../instructions.md", true},
 		{"randomFile.json", false},
 	}
 	for _, tt := range tests {
