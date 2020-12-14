@@ -33,15 +33,61 @@ object oriented programming and data processing.
 
 ## Installation
 
-### Prerequisites
+### Running through docker
+
+This repository contains a `Dockerfile` that could be built to run this tool or
+an already created image can be pulled from DockerHub.
+
+- To build the image from Dockerfile, run the following in the cloned repository
+  (including the `.` at the end):
+
+```bash
+docker build -t noorbuchi/pygo-portfolio-tracker .
+```
+
+**OR**
+
+- Pull the image from Docker Hub using:
+
+```bash
+docker pull noorbuchi/pygo-portfolio-tracker
+```
+
+Once the image is done loading, you can use the following command to run the
+container
+
+```bash
+docker run -p 127.0.0.1:80:8501 -d -v /pathToJson/:/usr/src/app/portfolio noorbuchi/pygo-portfolio-tracker
+```
+
+**Note**: Make sure to replace `pathToJson` with your preferred path to store
+your portfolio json files. For example:
+
+```bash
+docker run -p 127.0.0.1:80:8501 -d -v /home/user/my-stock-portfolios/:/usr/src/app/portfolio noorbuchi/pygo-portfolio-tracker
+```
+
+The container will be running on `localhost` and the web application can be
+simply accessed by typing `localhost` in your favorite browser. All created json
+files will be saved to the directory you provided and you can mount that same
+directory again later to view the files contents.
+
+Once you're done using the portfolio tracker, you can do the following to stop
+the docker container:
+
+- run `docker container ls` to find the running container ID and name
+- run `docker stop container-id` and replace `container-id` with the running
+  container's ID
+
+### Local Installation Prerequisites
 
 #### Python Environment
 
-Python makes up all front-end aspects of this project. Specifically, web application and data retrieval are done using Python. To ensure that all Python components run smoothly, you will need to install:
+Python makes up all front-end aspects of this project. Specifically, web application and data retrieval are done using Python. To ensure that all Python components run smoothly, you will need to have:
 
-- A version of Python preferably through Pyenv
+- Python 3.8 or higher
 - Pip, a Python package manager
-- Pipenv, used create a Python virtualenv and retrieve needed packages. This package can be installed using:
+- Pipenv, used to create a Python virtualenv and retrieve needed packages. This package can be installed using:
 
 ```bash
 pip install pipenv
@@ -51,7 +97,7 @@ pip install pipenv
 
 Back-end operations and calculations, as well as data storage are made possible through Go. The following prerequisites are needed:
 
-- A new version of Go (1.14 or 1.15)
+- A version of Go (1.14 or 1.15)
 - `finance-go` package, can be installed using:
 
 ```bash
