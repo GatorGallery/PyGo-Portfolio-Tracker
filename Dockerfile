@@ -20,8 +20,8 @@ RUN go get github.com/piquette/finance-go
 # Intsall pipenv
 RUN pip install pipenv
 
-# # Install dependencies using pipenv
-# RUN pipenv install
+# Install dependencies using pipenv
+RUN pipenv install
 
 # Expose the streamlit port
 EXPOSE 8501
