@@ -2,7 +2,7 @@
 
 ![Docker Cloud Build Status](https://img.shields.io/badge/Docker%20Build-Passing-brightgreen)
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-brightgreen.svg)](https://www.python.org/)
-[![made-with-golang](https://img.shields.io/badge/Made%20with-Golang-blue.svg)](https://www.python.org/)
+[![made-with-golang](https://img.shields.io/badge/Made%20with-Golang-blue.svg)](https://www.golang.org/)
 ![GitHub](https://img.shields.io/github/license/noorbuchi/PyGo-Portfolio-Tracker)
 
 ## Tool Design
