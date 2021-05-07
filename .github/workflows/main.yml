@@ -17,10 +17,9 @@ jobs:
       id: setup-go
       with:
         go-version: ${{ matrix.golang-version }}
+    - uses: actions/checkout@v2
     - name: Set up Go linters
       uses: golangci/golangci-lint-action@v2
-      with:
-        version: v1.29
     - name: Install Go Modules
       run: |
         go get github.com/piquette/finance-go
