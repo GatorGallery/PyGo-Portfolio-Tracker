@@ -6,7 +6,7 @@ jobs:
   build:
     name: ${{ matrix.os }} / ${{ matrix.golang-version }}
     runs-on: ${{ matrix.os }}-latest
-    startegy:
+    strategy:
       matrix:
         os: [Ubuntu, MacOS, Windows]
         golang-version: [1.15.12, 1.16.4]
