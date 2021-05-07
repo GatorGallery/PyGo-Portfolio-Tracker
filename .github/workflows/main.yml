@@ -1,1 +1,32 @@
+name: Tests
+on: [push, pull_request]
 
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / ${{ matrix.golang-version }}
+    runs-on: ${{ matrix.os }}-latest
+    startegy:
+      matrix:
+        os: [Ubuntu, MacOS, Windows]
+        golang-version: [1.15.12, 1.16.4]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go ${{ matrix.golang-version }}
+      uses: actions/setup-go@v2
+      id: setup-go
+      with:
+        go-version: ${{ matrix.golang-version }}
+    - name: Set up Go linters
+      uses: golangci/golangci-lint-action@v2
+      with:
+        version: v1.29
+    - name: Install Go Modules
+      run: |
+        go get github.com/piquette/finance-go
+    - name: Run Go Tests
+      run: |
+        go test ./...
+    - name: Run Go Linter
+      run: |
+        golangci-lint run
