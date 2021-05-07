@@ -23,9 +23,9 @@ jobs:
         go get github.com/piquette/finance-go
     - name: Run Go Tests
       run: |
-        go test -v -cover ./...
+        go test -v -cover src
     - name: Run Go linters
       uses: golangci/golangci-lint-action@v2
       with:
-        working-directory: ./src
+        working-directory: src
         skip-go-installation: true
