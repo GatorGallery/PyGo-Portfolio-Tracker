@@ -16,6 +16,7 @@ jobs:
       uses: actions/setup-go@v2
       id: setup-go
       with:
+        working-directory: src
         go-version: ${{ matrix.golang-version }}
     - uses: actions/checkout@v2
     - name: Install Go Modules
