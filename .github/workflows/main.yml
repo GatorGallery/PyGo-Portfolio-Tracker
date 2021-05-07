@@ -20,6 +20,10 @@ jobs:
     - name: Install Go Modules
       run: |
         go get github.com/piquette/finance-go
+    - name: Run Go linters
+      uses: golangci/golangci-lint-action@v2
+      with:
+        version: v1.29
     - name: Run Go tests
       run: |
-        go test -v -cover ./src
+        go test -v -cover src
