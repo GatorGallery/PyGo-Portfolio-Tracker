@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [Ubuntu, MacOS, Windows]
-        golang-version: [1.15.12, 1.16.4]
+        golang-version: [1.13.8]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Go ${{ matrix.golang-version }}
