@@ -26,7 +26,7 @@ jobs:
         go get github.com/piquette/finance-go
     - name: Run Go Tests
       run: |
-        go test ./...
+        go test -v -cover ./...
     - name: Run Go Linter
       run: |
         golangci-lint run
