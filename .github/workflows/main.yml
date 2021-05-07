@@ -22,7 +22,7 @@ jobs:
         go get github.com/piquette/finance-go
     - name: Get dir
       run: |
-        ls
+        pwd
     - name: Run Go linters
       uses: golangci/golangci-lint-action@v2
       with:
