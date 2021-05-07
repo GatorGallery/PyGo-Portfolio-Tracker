@@ -18,14 +18,14 @@ jobs:
       with:
         go-version: ${{ matrix.golang-version }}
     - uses: actions/checkout@v2
-    - name: Set up Go linters
-      uses: golangci/golangci-lint-action@v2
     - name: Install Go Modules
       run: |
         go get github.com/piquette/finance-go
     - name: Run Go Tests
       run: |
         go test -v -cover ./...
-    - name: Run Go Linter
-      run: |
-        golangci-lint run ./...
+    - name: Run Go linters
+      uses: golangci/golangci-lint-action@v2
+      with:
+        working-directory: ./src
+        skip-go-installation: true
