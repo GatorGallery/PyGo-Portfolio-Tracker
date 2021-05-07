@@ -22,4 +22,4 @@ jobs:
         go get github.com/piquette/finance-go
     - name: Run Go tests
       run: |
-        go test -v -cover /home/runner/work/PyGo-Portfolio-Tracker/PyGo-Portfolio-Tracker/...
+        go test -v -cover ./src
