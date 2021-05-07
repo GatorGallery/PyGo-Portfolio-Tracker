@@ -20,10 +20,8 @@ jobs:
     - name: Install Go Modules
       run: |
         go get github.com/piquette/finance-go
-    - name: Get dir
-      run: |
-        pwd
     - name: Run Go linters
       uses: golangci/golangci-lint-action@v2
       with:
+        working-directory: /home/runner/work/PyGo-Portfolio-Tracker/PyGo-Portfolio-Tracker
         skip-go-installation: true
