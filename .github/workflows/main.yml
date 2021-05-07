@@ -23,5 +23,5 @@ jobs:
     - name: Run Go linters
       uses: golangci/golangci-lint-action@v2
       with:
-        working-directory: /home/runner/work/PyGo-Portfolio-Tracker/PyGo-Portfolio-Tracker
+        working-directory: /home/runner/work/PyGo-Portfolio-Tracker/PyGo-Portfolio-Tracker/src
         skip-go-installation: true
