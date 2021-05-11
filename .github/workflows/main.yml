@@ -27,10 +27,11 @@ jobs:
     - name: Run Go tests
       run: |
         go test -v -cover ./...
-    - name: Run Go linter
+    - name: Run Go linters
       run: |
-        go list -f {{.Target}} golang.org/x/lint/golint
         golint ./...
+        go vet ./...
+        go fmt ./...
     - name: Set up Python environment
       run: |
         curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
