@@ -23,3 +23,22 @@ jobs:
     - name: Run Go tests
       run: |
         go test -v -cover ./...
+    - name: Set up Python environment
+      run: |
+        curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+        pyenv install 3.6.3
+        echo "eval '$(pyenv init -)'" >> ~/.bashrc
+        eval "$(pyenv virtualenv-init -)" >> ~/.bashrc
+        source ~/.bashrc
+        pyenv global 3.6.3
+        pip install --upgrade pip
+        pip install pipenv
+        pipenv install --dev
+    - name: Lint with pylint
+      run: |
+        pipenv run pylint termfrequency
+      #continue-on-error: true
+    - name: Lint with flake8
+      run: |
+        pipenv run flake8 termfrequency
+      #continue-on-error: true
