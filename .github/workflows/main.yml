@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         os: [Ubuntu, MacOS, Windows]
-        golang-version: [1.13.8]
+        golang-version: [1.14.15, 1.15.12]
     steps:
     - run: |
         echo "/home/runner/.pyenv/bin" >> $GITHUB_PATH
@@ -23,9 +23,13 @@ jobs:
     - name: Install Go Modules
       run: |
         go get github.com/piquette/finance-go
+        go get -u golang.org/x/lint/golint
     - name: Run Go tests
       run: |
         go test -v -cover ./...
+    - name: Run Go linter
+      run: |
+        golint ./...
     - name: Set up Python environment
       run: |
         curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
