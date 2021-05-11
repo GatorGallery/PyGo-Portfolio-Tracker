@@ -29,6 +29,7 @@ jobs:
         go test -v -cover ./...
     - name: Run Go linter
       run: |
+        go list -f {{.Target}} golang.org/x/lint/golint
         golint ./...
     - name: Set up Python environment
       run: |
