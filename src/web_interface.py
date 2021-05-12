@@ -10,6 +10,7 @@ from os import path
 import json
 import shlex
 import yfinance as yf
+import datetime as dt
 
 
 def web_interface():
@@ -55,7 +56,7 @@ def web_interface():
     st.markdown(f"## {portfolio_name}:")
 
     page_selection = st.sidebar.selectbox("Please select a page", options=[
-                                          "Chart", "Graphs", "History", "Run Tests"])
+                                          "Chart", "Graphs", "History", "Company Search", "Run Tests"])
 
     if st.button("refresh data"):
         refresh(port_path)
@@ -73,7 +74,46 @@ def web_interface():
     if page_selection == "Run Tests":
         run_tests()
 
+    if page_selection == "Company Search":
+        company_search()
+
     show_sidebar(port_path, data)
+
+
+def company_search():
+    company = st.text_input('Please input the stock ticker you would like to look for:')
+    tick = yf.Ticker(company)
+    st.header("Company summary:")
+    st.write(tick.info["longBusinessSummary"])
+    st.header("Company stock information:")
+    st.write("Company Sector: " + tick.info["sector"])
+    st.write("Company Industry Category: ", tick.info["industry"])
+    st.write("Company's Shares Regular Opening Price: ", tick.info["regularMarketOpen"])
+    st.write("Company's Shares Previous Closing Price: ", tick.info["previousClose"])
+    st.write(tick.recommendations)
+
+    # tick_df = tick.history(period="max")
+    # fig = tick_df['Close'].plot(title="Company's stock price")
+    # st.show(fig)
+    # fig, ax = plt.subplots() #solved by add this line
+    # ax.lineplot(tick_df, x="Closing", y="Year")
+    # st.pyplot(fig)
+
+    start = dt.datetime.today()-dt.timedelta(2 * 365)
+    end = dt.datetime.today()
+    df = yf.download(company,start,end)
+    df = df.reset_index()
+    fig = go.Figure(
+            data=go.Scatter(x=df['Date'], y=df['Adj Close'])
+        )
+    fig.update_layout(
+        title={
+            'text': "Stock Prices Over Past Two Years",
+            'y':0.9,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'})
+    st.plotly_chart(fig, use_container_width=True)
 
 
 def show_history(data):
