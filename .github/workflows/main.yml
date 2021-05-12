@@ -10,10 +10,8 @@ jobs:
       matrix:
         os: [Ubuntu, MacOS, Windows]
         golang-version: [1.14.15, 1.15.12]
+        python-version: [3.7, 3.8]
     steps:
-    - run: |
-        echo "/home/runner/.pyenv/bin" >> $GITHUB_PATH
-        echo "/home/runner/.local/bin" >> $GITHUB_PATH
     - uses: actions/checkout@v2
     - name: Set up Go ${{ matrix.golang-version }}
       uses: actions/setup-go@v2
@@ -31,19 +29,16 @@ jobs:
       run: |
         golint -set_exit_status ./...
         go fmt -x ./...
-    - name: Set up Python environment
-      run: |
-        curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-        pyenv install 3.6.3
-        echo "eval '$(pyenv init -)'" >> ~/.bashrc
-        eval "$(pyenv virtualenv-init -)" >> ~/.bashrc
-        source ~/.bashrc
-        pyenv global 3.6.3
-        pip install --upgrade pip
-        pip install pipenv
-        pipenv install --dev
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      id: setup-python
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Setup Pipenv
+      uses: dschep/install-pipenv-action@v1
     - name: Lint with pylint
       run: |
+        pipenv install --dev
         pipenv run pylint termfrequency
       #continue-on-error: true
     - name: Lint with flake8
