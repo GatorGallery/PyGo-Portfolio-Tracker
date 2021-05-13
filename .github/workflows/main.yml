@@ -41,9 +41,9 @@ jobs:
         pipenv install --dev
     - name: Lint with pylint
       run: |
-        pipenv run pylint termfrequency
+        pipenv run pylint src
       #continue-on-error: true
     - name: Lint with flake8
       run: |
-        pipenv run flake8 termfrequency
+        pipenv run flake8 src
       #continue-on-error: true
