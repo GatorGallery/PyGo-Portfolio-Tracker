@@ -4,12 +4,12 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: ${{ matrix.os }} / ${{ matrix.golang-version }}
+    name: ${{ matrix.os }} / Go ${{ matrix.golang-version }} / Py ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}-latest
     strategy:
       matrix:
         os: [Ubuntu, MacOS, Windows]
-        golang-version: [1.14.15, 1.15.12]
+        golang-version: [1.15.12]
         python-version: [3.7, 3.8]
     steps:
     - uses: actions/checkout@v2
