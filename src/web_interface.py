@@ -1,6 +1,6 @@
 """Web Interface for building a stock portfolio."""
 
-# pylint: disable=C0301, W0212, W1633, R0914
+# pylint: disable=C0301, W0212, W1633, R0914, R1732
 
 from __future__ import division
 import os
@@ -51,8 +51,8 @@ def web_interface():
         st.stop()
 
     # Open and load data
-    with open(f"portfolio/{port_path}") as f:
-        data = json.load(f)
+    with open(f"portfolio/{port_path}") as data_file:
+        data = json.load(data_file)
 
     portfolio_name = data["Name"]
     st.markdown(f"## {portfolio_name}:")
@@ -337,8 +337,8 @@ def show_graph(data):
         sizes = []
         for stock in stock_data.keys():
             sizes.append(stock_data[stock]["PrcntOfPort"])
-        cashPercentage = (data["Cash"] / data["Value"])
-        sizes.append(cashPercentage)
+        cash_percentage = (data["Cash"] / data["Value"])
+        sizes.append(cash_percentage)
 
         fig1, ax1 = plt.subplots()
         ax1.pie(sizes, labels=labels_tuple, autopct='%1.1f%%',
@@ -380,7 +380,7 @@ def show_graph(data):
 
     # ========== End Percentages Chart ====
 
-     # ========== Activity Bar Chart ====
+    # ========== Activity Bar Chart ====
     with col2:
         st.write("### Trading Activity")
         history = data["History"]
