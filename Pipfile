@@ -11,6 +11,3 @@ streamlit = "*"
 matplotlib.pyplot = "*"
 altair = "*"
 yfinance = "*"
-
-[requires]
-python_version = "3.8"
