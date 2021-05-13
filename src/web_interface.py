@@ -188,7 +188,7 @@ def show_sidebar(port_path, data):
 
 def refresh(port_path):
     """Run refresh command and show output"""
-    stdout, stderr = run_command("./stockHandler -f "+port_path + " -r")
+    stdout, stderr = run_command("./stockHandler -f " + port_path + " -r")
     if stdout != "":
         st.warning(stdout)
     if stderr != "":
@@ -201,7 +201,7 @@ def buy(port_path, data):
     ticker = st.text_input('Input stock ticker:', key="buy")
     shares = st.number_input('Input number of shares:', key="buy")
     price = st.number_input('Input average price:', key="buy")
-    st.write("Order Total: ", round(shares*price, 2))
+    st.write("Order Total: ", round(shares * price, 2))
     if st.button('buy', key="buy"):
         # Check for ticker existence and empty ticker
         if not(valid_ticker(ticker)) or ticker == "":
@@ -214,8 +214,8 @@ def buy(port_path, data):
             st.warning("Not enough cash")
         else:
             # Run the buy command and show results
-            stdout, stderr = run_command("./stockHandler -f "+port_path + " -o buy" + " -t " +
-                                         str(ticker) + " -s " + str(shares) + " -p " + str(price) + " - r ")
+            stdout, stderr = run_command("./stockHandler -f " + port_path + " -o buy" + " -t "
+                                         + str(ticker) + " -s " + str(shares) + " -p " + str(price) + " - r ")
             if stdout != "":
                 st.warning(stdout)
             if stderr != "":
@@ -229,7 +229,7 @@ def sell(port_path, data):
     ticker = st.text_input('Input stock ticker:', key="sell")
     shares = st.number_input('Input number of shares:', key="sell")
     price = st.number_input('Input average price:', key="sell")
-    st.write("Order Total: ", round(shares*price, 2))
+    st.write("Order Total: ", round(shares * price, 2))
     if st.button("sell", key="sell"):
         # Check positive numbers
         if (shares <= 0) or (price <= 0):
@@ -242,8 +242,8 @@ def sell(port_path, data):
             st.warning("Sold shares can't exceed owned shares")
         else:
             # Run the sell command and show results
-            stdout, stderr = run_command("./stockHandler -f "+port_path + " -o sell" + " -t " +
-                                         str(ticker) + " -s " + str(shares) + " -p " + str(price) + " -r ")
+            stdout, stderr = run_command("./stockHandler -f " + port_path + " -o sell" + " -t "
+                                         + str(ticker) + " -s " + str(shares) + " -p " + str(price) + " -r ")
             if stdout != "":
                 st.warning(stdout)
             if stderr != "":
@@ -260,7 +260,7 @@ def deposit(port_path):
             st.warning("Invalid zero or negative deposit amount")
         else:
             # run deposit command and show results
-            command = "./stockHandler -f "+port_path + \
+            command = "./stockHandler -f " + port_path + \
                 " -o deposit" + " -s " + str(cash)
             stdout, stderr = run_command(command)
             if stdout != "":
@@ -282,7 +282,7 @@ def withdraw(port_path, data):
         else:
             # run withdraw command and show results
             stdout, stderr = run_command(
-                "./stockHandler -f "+port_path + " -o withdraw" + " -s " + str(cash))
+                "./stockHandler -f " + port_path + " -o withdraw" + " -s " + str(cash))
             if stdout != "":
                 st.warning(stdout)
             if stderr != "":
@@ -313,7 +313,7 @@ def create_portfolio():
             # run deposit command and show output
             port_path = name + ".json"
             stdout, stderr = run_command(
-                "./stockHandler -f "+port_path + " -o deposit" + " -s " + str(cash))
+                "./stockHandler -f " + port_path + " -o deposit" + " -s " + str(cash))
             if stdout != "":
                 st.warning(stdout)
             if stderr != "":
