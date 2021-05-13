@@ -1,14 +1,17 @@
 """Web Interface for building a stock portfolio."""
 
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import altair as alt
+# pylint: disable=C0301, W0212, W1633, R0914
+
+from __future__ import division
 import os
-import subprocess
 from os import path
+import subprocess
 import json
 import shlex
+import altair as alt
+import matplotlib.pyplot as plt
+import pandas as pd
+import streamlit as st
 import yfinance as yf
 
 
@@ -20,9 +23,9 @@ def web_interface():
     # Build the golang files
     stdout, stderr = run_command(
         "go build src/stockHandler.go src/portfolio.go")
-    if not(stdout == ""):
+    if stdout != "":
         st.warning(stdout)
-    if not(stderr == ""):
+    if stderr != "":
         st.warning(stderr)
 
     if not path.isdir("./portfolio/"):
@@ -96,6 +99,7 @@ def show_history(data):
 
 
 def show_chart(data):
+    """Display the portfolio chart"""
     # ============ Portfolio Values =====================
     col1, col2 = st.beta_columns(2)
 
@@ -155,6 +159,7 @@ def color_negative_red(val):
 
 
 def show_sidebar(port_path, data):
+    """Display Streamlit sidebar"""
     selection = st.sidebar.selectbox("Please select an operation", options=[
         "Buy", "Sell", "Deposit", "Withdraw", "Create New Portfolio"])
     # Add a placeholder for textboxes and buttons
@@ -182,11 +187,11 @@ def show_sidebar(port_path, data):
 
 
 def refresh(port_path):
-    # run refresh command and show output
+    """Run refresh command and show output"""
     stdout, stderr = run_command("./stockHandler -f "+port_path + " -r")
-    if not(stdout == ""):
+    if stdout != "":
         st.warning(stdout)
-    if not(stderr == ""):
+    if stderr != "":
         st.warning(stderr)
 
 
@@ -209,11 +214,11 @@ def buy(port_path, data):
             st.warning("Not enough cash")
         else:
             # Run the buy command and show results
-            stdout, stderr = run_command("./stockHandler -f "+port_path + " -o buy" + " -t " + str(ticker) +
-                                         " -s " + str(shares) + " -p " + str(price) + " - r ")
-            if not(stdout == ""):
+            stdout, stderr = run_command("./stockHandler -f "+port_path + " -o buy" + " -t " +
+                                         str(ticker) + " -s " + str(shares) + " -p " + str(price) + " - r ")
+            if stdout != "":
                 st.warning(stdout)
-            if not(stderr == ""):
+            if stderr != "":
                 st.warning(stderr)
             st.success("Shares bought successfully! Please refresh few times.")
 
@@ -230,18 +235,18 @@ def sell(port_path, data):
         if (shares <= 0) or (price <= 0):
             st.warning("Invalid share/price")
         # check ticker existence in positions
-        elif (ticker == "") or not(ticker.upper() in data["Positions"].keys()):
+        elif (ticker == "") or not ticker.upper() in data["Positions"].keys():
             st.warning("Ticker not found")
         # Check if enough shares are available to sell
         elif data["Positions"][ticker.upper()]["Shares"] < shares:
             st.warning("Sold shares can't exceed owned shares")
         else:
             # Run the sell command and show results
-            stdout, stderr = run_command("./stockHandler -f "+port_path + " -o sell" + " -t " + str(ticker) +
-                                         " -s " + str(shares) + " -p " + str(price) + " -r ")
-            if not(stdout == ""):
+            stdout, stderr = run_command("./stockHandler -f "+port_path + " -o sell" + " -t " +
+                                         str(ticker) + " -s " + str(shares) + " -p " + str(price) + " -r ")
+            if stdout != "":
                 st.warning(stdout)
-            if not(stderr == ""):
+            if stderr != "":
                 st.warning(stderr)
             st.success("Shares sold successfully! Please refresh few times.")
 
@@ -258,9 +263,9 @@ def deposit(port_path):
             command = "./stockHandler -f "+port_path + \
                 " -o deposit" + " -s " + str(cash)
             stdout, stderr = run_command(command)
-            if not(stdout == ""):
+            if stdout != "":
                 st.warning(stdout)
-            if not(stderr == ""):
+            if stderr != "":
                 st.warning(stderr)
             st.success("Deposit successfull! Please refresh few times.")
 
@@ -278,9 +283,9 @@ def withdraw(port_path, data):
             # run withdraw command and show results
             stdout, stderr = run_command(
                 "./stockHandler -f "+port_path + " -o withdraw" + " -s " + str(cash))
-            if not(stdout == ""):
+            if stdout != "":
                 st.warning(stdout)
-            if not(stderr == ""):
+            if stderr != "":
                 st.warning(stderr)
             st.success("Withdraw successfull! Please refresh few times.")
 
@@ -309,14 +314,15 @@ def create_portfolio():
             port_path = name + ".json"
             stdout, stderr = run_command(
                 "./stockHandler -f "+port_path + " -o deposit" + " -s " + str(cash))
-            if not(stdout == ""):
+            if stdout != "":
                 st.warning(stdout)
-            if not(stderr == ""):
+            if stderr != "":
                 st.warning(stderr)
             st.success("New portfolio create! Please refresh few times.")
 
 
 def show_graph(data):
+    """Display graph of stock data"""
     col1, col2 = st.beta_columns(2)
     stock_data = data["Positions"]
     if len(stock_data) == 0:
@@ -406,7 +412,7 @@ def run_tests():
         f"### Test cases can be ran separately using `{command}` or you can click the button below")
     if st.button("Run Tests"):
         stdout, stderr = run_command(command)
-        if not(stderr == ""):
+        if stderr != "":
             st.warning(stderr)
         if "FAIL" in stdout:
             st.write("### Tests Failed!")
