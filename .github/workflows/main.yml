@@ -1,1 +1,47 @@
+name: Tests
+on: [push, pull_request]
 
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / Go ${{ matrix.golang-version }} / Py ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        os: [Ubuntu, MacOS, Windows]
+        golang-version: [1.15.12]
+        python-version: [3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go ${{ matrix.golang-version }}
+      uses: actions/setup-go@v2
+      id: setup-go
+      with:
+        go-version: ${{ matrix.golang-version }}
+    - name: Install Go Modules
+      run: |
+        go get github.com/piquette/finance-go
+        go get -u golang.org/x/lint/golint
+    - name: Run Go tests
+      run: |
+        go test -v -cover ./...
+    - name: Run Go linters
+      run: |
+        golint -set_exit_status ./...
+        go fmt -x ./...
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      id: setup-python
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Setup Pipenv
+      run: |
+        pip install --upgrade pip
+        pip install pipenv
+        pipenv install --dev
+    - name: Lint with pylint
+      run: |
+        pipenv run pylint src
+    - name: Lint with flake8
+      run: |
+        pipenv run flake8 src
