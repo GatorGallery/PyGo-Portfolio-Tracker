@@ -27,7 +27,7 @@ jobs:
         go test ./... -race -coverprofile=coverage.txt -covermode=atomic
     - name: Upload coverage to Codecov
       run: |
-        bash <(curl -t 7558aeb2-aca1-4059-9e11-11638a92a12e -s https://codecov.io/bash)
+        curl -t 7558aeb2-aca1-4059-9e11-11638a92a12e -s https://codecov.io/bash
     - name: Run Go linters
       run: |
         golint -set_exit_status ./...
