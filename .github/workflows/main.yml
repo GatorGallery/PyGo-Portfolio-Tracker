@@ -22,12 +22,9 @@ jobs:
       run: |
         go get github.com/piquette/finance-go
         go get -u golang.org/x/lint/golint
-    - name: Run coverage
+    - name: Run Go tests
       run: |
-        go test ./... -race -coverprofile=coverage.txt -covermode=atomic
-    - name: Upload coverage to Codecov
-      run: |
-        curl -t 7558aeb2-aca1-4059-9e11-11638a92a12e -s https://codecov.io/bash
+        go test ./... -cover
     - name: Run Go linters
       run: |
         golint -set_exit_status ./...
