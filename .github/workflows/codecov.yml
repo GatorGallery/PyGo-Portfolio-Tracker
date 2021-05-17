@@ -1,0 +1,28 @@
+name: CodeCov
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: CodeCov
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      matrix:
+        os: [Ubuntu]
+        golang-version: [1.15.12]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Go ${{ matrix.golang-version }}
+      uses: actions/setup-go@v2
+      id: setup-go
+      with:
+        go-version: ${{ matrix.golang-version }}
+    - name: Install Go Modules
+      run: |
+        go get github.com/piquette/finance-go
+        go get -u golang.org/x/lint/golint
+    - name: Run coverage
+      run: |
+        go test ./... -race -coverprofile=coverage.txt -covermode=atomic
+    - name: Upload coverage to Codecov
+      run: |
+        bash <(curl -t 7558aeb2-aca1-4059-9e11-11638a92a12e -s https://codecov.io/bash)
