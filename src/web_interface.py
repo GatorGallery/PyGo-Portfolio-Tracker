@@ -189,14 +189,22 @@ def refresh(port_path):
     if not(stderr == ""):
         st.warning(stderr)
 
-
 def buy(port_path, data):
     """Execute buy operation"""
     st.header('Buy')
     ticker = st.text_input('Input stock ticker:', key="buy")
+
+    data = yf.download(ticker, period="1d")
+    df = data
+    price = round(df.iloc[0,4], 2)
+    #st.write(df)
+    st.write("Adjusted Closing value is: $", price)
+
+
     shares = st.number_input('Input number of shares:', key="buy")
-    price = st.number_input('Input average price:', key="buy")
-    st.write("Order Total: ", round(shares*price, 2))
+    #price = st.number_input('Input average price:', key="buy")
+    st.write("Order Total: $", price, "*", shares, "shares")
+    st.write("= $", round(shares*price, 2))
     if st.button('buy', key="buy"):
         # Check for ticker existence and empty ticker
         if not(valid_ticker(ticker)) or ticker == "":
@@ -205,7 +213,7 @@ def buy(port_path, data):
         elif (shares <= 0) or (price <= 0):
             st.warning("Invalid share/price")
         # check sufficient cash
-        elif data["Cash"] < (shares * price):
+        #elif data["Cash"] < (shares * price):
             st.warning("Not enough cash")
         else:
             # Run the buy command and show results
