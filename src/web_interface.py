@@ -108,6 +108,7 @@ def general_info(tick):
     st.write("Company Industry Category: ", tick.info["industry"])
     st.write("Company's Shares Regular Opening Price: ", tick.info["regularMarketOpen"])
     st.write("Company's Shares Previous Closing Price: ", tick.info["previousClose"])
+    st.write('Website: ', tick.info['website'])
 
 
 def detailed_info(ticker, tick):
@@ -118,7 +119,7 @@ def detailed_info(ticker, tick):
     st.write("Company Industry Category: ", tick.info["industry"])
     st.write("Company's Shares Regular Opening Price: ", tick.info["regularMarketOpen"])
     st.write("Company's Shares Previous Closing Price: ", tick.info["previousClose"])
-    st.write("Recommendations based on various financial institutions:")
+    st.subheader("Recommendations based on various financial institutions:")
     st.write(tick.recommendations)
 
     start = dt.datetime.today()-dt.timedelta(2 * 365)
