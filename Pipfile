@@ -11,6 +11,7 @@ streamlit = "*"
 matplotlib.pyplot = "*"
 altair = "*"
 yfinance = "*"
+plotly = "*"
 
 [requires]
 python_version = "3.8"
